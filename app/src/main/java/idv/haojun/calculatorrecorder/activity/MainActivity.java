@@ -1,4 +1,4 @@
-package idv.haojun.calculatorrecorder;
+package idv.haojun.calculatorrecorder.activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -14,7 +14,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import idv.haojun.calculatorrecorder.model.CalculatorRecord;
+import idv.haojun.calculatorrecorder.R;
+import idv.haojun.calculatorrecorder.sqlite.CalculatorRecordDao;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    public static final int RC_CALCULATOR = 0;
 
     private RecyclerView rv;
 
@@ -28,13 +34,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rv = findViewById(R.id.rvMain);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(new MyAdapter());
+
+        getCalculatorRecordList();
+    }
+
+    private void getCalculatorRecordList(){
+        ((MyAdapter)rv.getAdapter()).setList(new CalculatorRecordDao(this).getAll());
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivMainAdd:
-                startActivity(new Intent(this, CalculatorActivity.class));
+                startActivityForResult(new Intent(this, CalculatorActivity.class), RC_CALCULATOR);
                 break;
         }
     }
@@ -102,6 +114,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public int getItemCount() {
             return list.size();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) return;
+        switch (requestCode) {
+            case RC_CALCULATOR:
+                getCalculatorRecordList();
+                break;
         }
     }
 }

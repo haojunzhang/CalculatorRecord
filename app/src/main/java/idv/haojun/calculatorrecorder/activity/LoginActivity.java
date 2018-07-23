@@ -1,7 +1,6 @@
-package idv.haojun.calculatorrecorder;
+package idv.haojun.calculatorrecorder.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +8,9 @@ import android.widget.EditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import idv.haojun.calculatorrecorder.helper.DialogHelper;
+import idv.haojun.calculatorrecorder.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
